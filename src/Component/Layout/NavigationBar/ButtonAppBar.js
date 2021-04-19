@@ -66,7 +66,7 @@ export default function ButtonAppBar() {
             <Button color="inherit" component={Link} to="/contactUs">
               Contact Us
             </Button>
-            <Button color="inherit" component={Link} to="/signIn">
+            <Button className="btn-link" color="inherit" component={Link} to="/signIn">
               Login
             </Button>
           </div>

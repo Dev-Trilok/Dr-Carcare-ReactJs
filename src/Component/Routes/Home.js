@@ -1,9 +1,10 @@
-import React from 'react'
+import React from "react";
+import HeroSection from "../Layout/HeroSection/HeroSection";
 
 export default function Home() {
-    return (
-        <div>
-            <h1>Home</h1>
-        </div>
-    )
+  return (
+    <React.Fragment>
+      <HeroSection />
+    </React.Fragment>
+  );
 }

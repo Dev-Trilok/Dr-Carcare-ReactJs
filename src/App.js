@@ -1,7 +1,7 @@
 
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './App.css';
-import ButtonAppBar from './Component/Layout/ButtonAppBar';
+import ButtonAppBar from './Component/Layout/NavigationBar/ButtonAppBar';
 import AboutUs from './Component/Routes/AboutUs';
 import ContactUs from './Component/Routes/ContactUs';
 import Home from './Component/Routes/Home';
