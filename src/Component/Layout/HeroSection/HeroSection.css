@@ -1,19 +1,32 @@
-.MainImg1 {
+/* .MainImg1 {
   padding-top: 0;
-  height: 400px;
-  width: "40vw";
-}
+  height: 100vh;
+  width: 100vw;
+  background-size: cover;
+} */
 .hero-container {
   /* background: url('/images/img-home.jpg') center center/cover no-repeat; */
-  height: 100%;
-  width: 100%;
+  height: 100vh;
+  width: 100VW;
+  background-image: url('../../../Assets/Images/homescreen.jpg');
+  background-size: cover;
+  background-position: 25% -56px;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row-reverse;
+  justify-content: right;
   align-items: center;
-  box-shadow: inset 0 0 0 1000px rgba(146, 143, 144, 0.5);
+  /* box-shadow: inset 0 0 0 1000px rgba(146, 143, 144, 0.5); */
   object-fit: contain;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
+
+.appointment-card
+{
+  margin-right: 10%;
+  width: 35vw;
+  height: auto;
+}
+
 
 .hero-container > h1 {
   color: blue;
@@ -31,16 +44,6 @@
 
 
 @media only screen and (max-width: 768px) {
-  .MainImg1 {
-    padding-top: 20px;
-    padding-left: 80px;
-    height: 30vh;
-    width: 100vw;
-    margin-top: -71%;
-    margin-left: 0;
-    margin-right: 22%;
-    
-  }
   .hero-container {
     height: 100vh;
     width: 100vw;
@@ -54,5 +57,15 @@
   .hero-container > p {
     font-size: 30px;
   }
-
+  .appointment-card
+  {
+    flex: auto;
+    margin-top: 20vh;
+    margin-left: 10vw;
+  }
+  .appointment-card-header
+  {
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.562);
+  }
 }

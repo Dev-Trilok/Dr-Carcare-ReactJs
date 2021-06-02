@@ -8,18 +8,38 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-
+import logo from "../../../Assets/Images/logo2.png";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    
+  },
+  root1: {
+    background: 'rgb(146 145 144 )', position:"relative",
+    top:0
   },
   menuButton: {
     marginRight: theme.spacing(2),
   },
   title: {
     flexGrow: 1,
+    fontFamily: "Titillium Web, sans-serif",
+    marginLeft:-30,
+    fontWeight:"bold",
+  },
+  title1:{
+    textDecoration:'none',
+    color:'#fff'
+    
+  }, 
+  logo: {
+    maxWidth: 140,
+    // marginRight: '10px',
+    [theme.breakpoints.down('md')]:{
+      marginLeft:-40
+    },
   },
   sectionDesktop: {
     display: "none",
@@ -32,6 +52,8 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("md")]: {
       display: "flex",
     },
+
+    
   },
 }));
 
@@ -48,10 +70,13 @@ export default function ButtonAppBar() {
   };
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="static" className={classes.root1}>
         <Toolbar>
-          <Typography variant="h6" className={classes.title} >
+        <img src={logo} alt="logo" className={classes.logo} />
+          <Typography variant="h5" className={classes.title}>
+            <Link to='/' className={classes.title1}>
             Dr Carcare 
+            </Link>
           </Typography>
           <div className={classes.sectionDesktop}>
             <Button color="inherit" component={Link} to="/">

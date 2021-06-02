@@ -14,12 +14,11 @@ function App() {
       <BrowserRouter>
       <ButtonAppBar />
       <Switch>
-        <Route exact path="/" component={Home}/>
         <Route exact path="/aboutUs" component={AboutUs}/>
         <Route exact path="/contactUs" component={ContactUs}/>
         <Route exact path="/signIn" component={SignIn} />
         <Route exact path="/services" component={Services} />
-
+        <Route exact path="/" component={Home}/>
       </Switch>
       </BrowserRouter>
     
