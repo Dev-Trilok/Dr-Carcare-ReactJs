@@ -6,7 +6,8 @@ import AboutUs from './Component/Routes/AboutUs';
 import ContactUs from './Component/Routes/ContactUs';
 import Home from './Component/Routes/Home';
 import Services from './Component/Routes/Services';
-import SignIn from './Component/SignIn';
+import SignUp from './Component/Authentication/SignUp';
+import SignIn from './Component/Authentication/SignIn';
 
 function App() {
   return (
@@ -16,7 +17,9 @@ function App() {
       <Switch>
         <Route exact path="/aboutUs" component={AboutUs}/>
         <Route exact path="/contactUs" component={ContactUs}/>
+        <Route exact path="/signUp" component={SignUp} />
         <Route exact path="/signIn" component={SignIn} />
+
         <Route exact path="/services" component={Services} />
         <Route exact path="/" component={Home}/>
       </Switch>

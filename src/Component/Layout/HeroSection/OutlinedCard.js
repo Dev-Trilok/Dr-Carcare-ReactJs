@@ -1,4 +1,5 @@
 import React from "react";
+
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
@@ -7,10 +8,15 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import { Box } from "@material-ui/core";
+import { useState } from "react";
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
-    
+    backgroundColor: "#fffc",
+    boxShadow: "0px 0px 21px 0px rgba(0,0,0,0.5)",
+    '&:hover': {
+      background: "#fff",
+    }
   },
   bullet: {
     display: "inline-block",
@@ -23,33 +29,58 @@ const useStyles = makeStyles({
   pos: {
     marginBottom: 12,
   },
-  
 });
 
 export default function OutlinedCard() {
   const classes = useStyles();
+  const [shadow, setshadow] = useState(5)
+  let toggleRaised = () => setshadow(15);
+  let toggleRaised2 = () => setshadow(5);
 
   return (
-   <Box boxShadow={3} >
-   <Card className={classes.root} variant="outlined">
-      <CardContent >
-        <Typography variant="h5" component="h2">
-          Book your Appointment
-        </Typography>
+    <Box boxShadow={shadow} onMouseOver={toggleRaised}
+    onMouseOut={toggleRaised2} >
+      <Card
+        className={classes.root}
+        variant="outlined"
+        
+       
+        
+      >
+        <CardContent>
+          <Typography variant="h5" component="h2">
+            Book your Appointment
+          </Typography>
 
-        <form className={classes.card1} noValidate autoComplete="off">
-          <TextField id="standard-basic"  style={{marginLeft:"10px"}} label="Name" />
-          <TextField id="standard-basic1" style={{marginLeft:"10px"}} label="Mobile No" />
-        </form>
-        
-      </CardContent>
-      <CardActions className={CardActions}>
-     
-        <Button variant="contained" color="primary" style={{display:"flex", alignItems:"flex-end", justifyContent:"center", marginLeft:"60%" }} size="small">Submit</Button>
-        
-      </CardActions>
-      
-    </Card>
+          <form className={classes.card1} noValidate autoComplete="off">
+            <TextField
+              id="standard-basic"
+              style={{ marginLeft: "10px" }}
+              label="Name"
+            />
+            <TextField
+              id="standard-basic1"
+              style={{ marginLeft: "10px" }}
+              label="Mobile No"
+            />
+          </form>
+        </CardContent>
+        <CardActions className={CardActions}>
+          <Button
+            variant="contained"
+            color="primary"
+            style={{
+              display: "flex",
+              alignItems: "flex-end",
+              justifyContent: "center",
+              marginLeft: "60%",
+            }}
+            size="small"
+          >
+            Submit
+          </Button>
+        </CardActions>
+      </Card>
     </Box>
   );
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -10,15 +10,16 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import logo from "../../../Assets/Images/logo2.png";
 import { Link } from "react-router-dom";
+import FirebaseApp from "../../../Firebase";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    
   },
   root1: {
-    background: 'rgb(146 145 144 )', position:"relative",
-    top:0
+    background: "rgb(146 145 144 )",
+    position: "relative",
+    top: 0,
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -26,19 +27,18 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
     fontFamily: "Titillium Web, sans-serif",
-    marginLeft:-30,
-    fontWeight:"bold",
+    marginLeft: -30,
+    fontWeight: "bold",
   },
-  title1:{
-    textDecoration:'none',
-    color:'#fff'
-    
-  }, 
+  title1: {
+    textDecoration: "none",
+    color: "#fff",
+  },
   logo: {
     maxWidth: 140,
     // marginRight: '10px',
-    [theme.breakpoints.down('md')]:{
-      marginLeft:-40
+    [theme.breakpoints.down("md")]: {
+      marginLeft: -40,
     },
   },
   sectionDesktop: {
@@ -52,15 +52,21 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("md")]: {
       display: "flex",
     },
-
-    
   },
 }));
 
 export default function ButtonAppBar() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
-
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    const unsub = FirebaseApp.auth().onAuthStateChanged((u) => {
+      setUser(u);
+    });
+    return () => {
+      unsub();
+    };
+  }, []);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -68,19 +74,28 @@ export default function ButtonAppBar() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const Login = () => {
+    if (user !== null) return <Button variant="contained">{user.displayName}</Button>;
+    else 
+    return <Button className="btn-link" color="inherit" component={Link} to="/signIn">
+      Login
+    </Button>;
+  };
+
   return (
     <div className={classes.root}>
       <AppBar position="static" className={classes.root1}>
         <Toolbar>
-        <img src={logo} alt="logo" className={classes.logo} />
+          <img src={logo} alt="logo" className={classes.logo} />
           <Typography variant="h5" className={classes.title}>
-            <Link to='/' className={classes.title1}>
-            Dr Carcare 
+            <Link to="/" className={classes.title1}>
+              Dr Carcare
             </Link>
           </Typography>
           <div className={classes.sectionDesktop}>
             <Button color="inherit" component={Link} to="/">
-              Home 
+              Home
             </Button>
             <Button color="inherit" component={Link} to="/services">
               Services
@@ -91,9 +106,7 @@ export default function ButtonAppBar() {
             <Button color="inherit" component={Link} to="/contactUs">
               Contact Us
             </Button>
-            <Button className="btn-link" color="inherit" component={Link} to="/signIn">
-              Login
-            </Button>
+            {Login()}
           </div>
           <div className={classes.sectionMobile}>
             <IconButton
