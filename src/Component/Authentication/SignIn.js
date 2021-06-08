@@ -11,7 +11,7 @@ export default function SignIn() {
         history.replace('/')
     }
     return (
-        <div style={{padding:100}}>
+        <div style={{marginTop:100}}>
               <StyledFirebaseAuth
               uiConfig={{
                 callbacks: {

@@ -139,7 +139,7 @@ export default function Login() {
     user.updateProfile({ displayName: name }).then(() => {
       FirebaseApp.firestore()
         .doc("pusers/" + user.uid)
-        .set({ name: name, isStaff: isStaff })
+        .set({ name: name })
         .then(() => {
           handleNext();
         });
@@ -154,7 +154,7 @@ export default function Login() {
       .then((res) => {
         if (res.exists) {
           setName(res.data().name);
-          setIsStaff(res.data().isStaff);
+          
         }
       });
     handleNext();
@@ -173,6 +173,7 @@ export default function Login() {
                     return false;
                   },
                 },
+      
                 signInFlow: "popup",
                 signInOptions: [
                   {
@@ -184,6 +185,8 @@ export default function Login() {
                     },
                     defaultCountry: "IN",
                   },
+
+              
                 ],
               }}
               firebaseAuth={FirebaseApp.auth()}
@@ -212,21 +215,6 @@ export default function Login() {
                 setName(e.target.value);
               }}
               variant="outlined"
-            />
-            <FormControlLabel
-              value="isStaff"
-              control={
-                <Switch
-                  color="primary"
-                  checked={isStaff}
-                  onChange={(event) => {
-                    setIsStaff(event.target.checked);
-                  }}
-                />
-              }
-              label="Are You A Staff : "
-              labelPlacement="start"
-              style={{ marginLeft: 0, marginRight: "auto" }}
             />
             <Button
               variant="contained"

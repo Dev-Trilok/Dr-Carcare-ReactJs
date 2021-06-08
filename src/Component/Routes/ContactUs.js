@@ -3,7 +3,7 @@ import React from 'react'
 export default function ContactUs() {
     return (
         <div>
-            <h1>Contact US</h1>
+            <h1  style={{textAlign:"center"}}>Contact Us</h1>
         </div>
     )
 }
