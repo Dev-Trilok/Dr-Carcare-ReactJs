@@ -10,16 +10,18 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import logo from "../../../Assets/Images/logo2.png";
 import { Link } from "react-router-dom";
-import FirebaseApp from "../../../Firebase";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    width:'100%'
   },
   root1: {
     background: "rgb(146 145 144 )",
     position: "relative",
     top: 0,
+    margin:0,
+    padding:0,
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -59,14 +61,14 @@ export default function ButtonAppBar() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [user, setUser] = useState(null);
-  useEffect(() => {
-    const unsub = FirebaseApp.auth().onAuthStateChanged((u) => {
-      setUser(u);
-    });
-    return () => {
-      unsub();
-    };
-  }, []);
+  // useEffect(() => {
+  //   const unsub = FirebaseApp.auth().onAuthStateChanged((u) => {
+  //     setUser(u);
+  //   });
+  //   return () => {
+  //     unsub();
+  //   };
+  // }, []);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };

@@ -11,12 +11,12 @@ import { Box } from "@material-ui/core";
 import { useState } from "react";
 const useStyles = makeStyles({
   root: {
-    minWidth: 275,
+    maxWidth: 275,
     backgroundColor: "#fffc",
     boxShadow: "0px 0px 21px 0px rgba(0,0,0,0.5)",
-    '&:hover': {
+    "&:hover": {
       background: "#fff",
-    }
+    },
   },
   bullet: {
     display: "inline-block",
@@ -31,55 +31,24 @@ const useStyles = makeStyles({
   },
 });
 
-export default function OutlinedCard() {
+export default function OutlinedCard(props) {
   const classes = useStyles();
-  const [shadow, setshadow] = useState(5)
+  const [shadow, setshadow] = useState(5);
   let toggleRaised = () => setshadow(15);
   let toggleRaised2 = () => setshadow(5);
 
   return (
-    <Box boxShadow={shadow} onMouseOver={toggleRaised}
-    onMouseOut={toggleRaised2} >
+    <Box
+      display='flex'
+      justifyContent="center"
+    >
       <Card
-        className={classes.root}
-        variant="outlined"
+      style={{width:props.width, height:props.height}}
+      onMouseOver={toggleRaised}
+      onMouseOut={toggleRaised2}
+      variant="outlined">
+      {props.children}
         
-       
-        
-      >
-        <CardContent>
-          <Typography variant="h5" component="h2">
-            Book your Appointment
-          </Typography>
-
-          <form className={classes.card1} noValidate autoComplete="off">
-            <TextField
-              id="standard-basic"
-              style={{ marginLeft: "10px" }}
-              label="Name"
-            />
-            <TextField
-              id="standard-basic1"
-              style={{ marginLeft: "10px" }}
-              label="Mobile No"
-            />
-          </form>
-        </CardContent>
-        <CardActions className={CardActions}>
-          <Button
-            variant="contained"
-            color="primary"
-            style={{
-              display: "flex",
-              alignItems: "flex-end",
-              justifyContent: "center",
-              marginLeft: "60%",
-            }}
-            size="small"
-          >
-            Submit
-          </Button>
-        </CardActions>
       </Card>
     </Box>
   );

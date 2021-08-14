@@ -33,7 +33,6 @@ export default function ServicesCard({
 }) {
   const classes = useStyles();
   const location = useLocation();
-  console.log(location.pathname);
   let ButtonTag ;
   let chargesTag;
   if (location.pathname === "/services") 

@@ -7,7 +7,7 @@
 .hero-container {
   /* background: url('/images/img-home.jpg') center center/cover no-repeat; */
   height: 100vh;
-  width: 100VW;
+  width: 100vw;
   background-image: url('../../../Assets/Images/homescreen.jpg');
   background-size: cover;
   background-position: 25% -56px;

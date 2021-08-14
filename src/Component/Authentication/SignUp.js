@@ -5,16 +5,18 @@ import clsx from "clsx";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
+import Check from "@material-ui/icons/Check";
+import SettingsIcon from "@material-ui/icons/Settings";
+import GroupAddIcon from "@material-ui/icons/GroupAdd";
+import VideoLabelIcon from "@material-ui/icons/VideoLabel";
 import StepConnector from "@material-ui/core/StepConnector";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import firebase from "firebase";
-import { StyledFirebaseAuth } from "react-firebaseui";
-import { Box, FormControlLabel, Switch, TextField } from "@material-ui/core";
-import { DoneAll, PhoneAndroid, VerifiedUser } from "@material-ui/icons";
-import { useHistory } from "react-router-dom";
-import FirebaseApp from "../../Firebase";
+import OutlinedCard from "../Layout/HeroSection/OutlinedCard";
+import { Box, CardContent, IconButton, InputAdornment, TextField } from "@material-ui/core";
 
+import cars from "../../Assets/CarData/carModels.json";
+import { Autocomplete } from "@material-ui/lab";
 const ColorlibConnector = withStyles({
   alternativeLabel: {
     top: 22,
@@ -67,9 +69,9 @@ function ColorlibStepIcon(props) {
   const { active, completed } = props;
 
   const icons = {
-    1: <PhoneAndroid />,
-    2: <VerifiedUser />,
-    3: <DoneAll />,
+    1: <SettingsIcon />,
+    2: <GroupAddIcon />,
+    3: <VideoLabelIcon />,
   };
 
   return (
@@ -104,151 +106,262 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
   },
   button: {
-    marginRight: theme.spacing(1),
+    marginTop: 20,
   },
   instructions: {
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(1),
-    marginRight: "auto",
   },
 }));
 
 function getSteps() {
-  return ["Login Using Phone Number", "Enter Name", "Finish"];
+  return [
+    "Enter Email Address & Password",
+    "Enter Name & Mobile No... ",
+    "Optional",
+  ];
 }
 
-export default function Login() {
+export default function CustomizedSteppers() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const steps = getSteps();
-  const history = useHistory();
+  const [brands, setBrands] = useState([]);
+  const [selectedBrand, setBrand] = useState("");
+  const [models, setModels] = useState([]);
+  const [selectedModel, setModel] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [mobNo, setMobNo] = useState("");
+  const [carRunning, setCarRunning] = useState("");
+  const [cpassword, setCpassword] = useState("");
+  const [isValid, setIsValid] = useState(false);
+  function validateEmail(email) {
+    const re =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  }
+  const emailPass = () => {
+    return (
+      <CardContent>
+        <Typography variant="h5" component="h2"></Typography>
+        <form autoComplete="off">
+          <TextField
+            id="email"
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+            style={{ marginLeft: "10px", width: 250 }}
+            label="Email"
+            error={email.length !== 0 && !validateEmail(email)}
+            type="email"
+            required
+          />
+          <TextField
+            id="password"
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+            style={{ marginLeft: "10px", marginTop: 20, width: 250 }}
+            error={password.length !== 0 && password.length < 6}
+            label="Password"
+            type="password"
+            required
+          />
+          <TextField
+            id="cpassword"
+            value={cpassword}
+            onChange={(e) => {
+              setCpassword(e.target.value);
+            }}
+            error={password !== cpassword}
+            style={{ marginLeft: "10px", marginTop: 20, width: 250 }}
+            label="Confirm Password "
+            type="password"
+          />
+        </form>
+        <Box display="flex" justifyContent="center">
+          <Button
+            disabled={
+              !(
+                validateEmail(email) &&
+                password.length > 5 &&
+                password === cpassword
+              )
+            }
+            variant="contained"
+            color="primary"
+            onClick={handleNext}
+            className={classes.button}
+          >
+            Next
+          </Button>
+        </Box>
+      </CardContent>
+    );
+  };
+  const nameMob = () => {
+    return (
+      <CardContent>
+        <form noValidate autoComplete="off">
+          <TextField
+            id="name"
+            value={name}
+            onChange={(e) => {
+              setName(e.target.value);
+            }}
+            style={{ marginLeft: "10px", width: 250 }}
+            label="Name"
+            required
+          />
+
+          <TextField
+            id="mobileNo"
+            value={mobNo}
+            onChange={(e) => {
+              setMobNo(e.target.value);
+            }}
+            style={{ marginLeft: "10px", marginTop: "20px", width: 250 }}
+            label="Mobile No"
+            type="number" 
+            
+            InputProps={{
+              startAdornment: <InputAdornment position="start">+91</InputAdornment>,
+            }}
+            error={mobNo.length !== 0 && mobNo.length > 10}
+          />
+          
+        </form>
+        <Box display="flex" justifyContent="center">
+          <Button
+            disabled={activeStep === 0}
+            onClick={handleBack}
+            className={classes.button}
+          >
+            Back
+          </Button>
+          <Button
+            disabled={
+              !(
+                validateEmail(email) &&
+                password.length > 5 &&
+                password === cpassword
+              )
+            }
+            variant="contained"
+            color="primary"
+            onClick={handleNext}
+            className={classes.button}
+          >
+            Next
+          </Button>
+        </Box>
+      </CardContent>
+    );
+  };
+  const carsInfo = () => {
+    return (
+      <CardContent>
+        <form noValidate autoComplete="off">
+          <Autocomplete
+            id="car-brand"
+            options={brands}
+            value={selectedBrand}
+            style={{ width: 250 }}
+            onChange={(e, value) => {
+              setBrand(value);
+              setModel("");
+            }}
+            renderInput={(params) => (
+              <TextField {...params} label="Car Brand :" variant="outlined" />
+            )}
+          />
+          <Autocomplete
+            id="car-model"
+            options={models}
+            value={selectedModel}
+            onChange={(e, value) => setModel(value)}
+            style={{ width: 250, marginTop: 10 }}
+            renderInput={(params) => (
+              <TextField {...params} label="Car Model :" variant="outlined" />
+            )}
+          />
+          <TextField
+            id="carRunning"
+            style={{ marginLeft: "10px", marginTop: "20px", width: 250 }}
+            label="Car Running"
+            InputProps={{
+              endAdornment: <InputAdornment position="end">KM</InputAdornment>,
+            }}
+            type="number"
+          />
+        </form>
+        <Box display="flex" justifyContent="center">
+          <Button
+            disabled={activeStep === 0}
+            onClick={handleBack}
+            className={classes.button}
+          >
+            Back
+          </Button>
+          <Button
+            disabled={
+              !(
+                validateEmail(email) &&
+                password.length > 5 &&
+                password === cpassword
+              )
+            }
+            variant="contained"
+            color="primary"
+            onClick={handleNext}
+            className={classes.button}
+          >
+            Next
+          </Button>
+        </Box>
+      </CardContent>
+    );
+  };
+
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const handleReset = () => {
+    setActiveStep(0);
+  };
+
   useEffect(() => {
-    if (FirebaseApp.auth().currentUser != null) {
-      history.replace("/");
+    let brands = cars.cars.map((value) => {
+      return value.brand;
+    });
+    function onlyUnique(value, index, self) {
+      return self.indexOf(value) === index;
     }
-    return () => {};
+    brands = brands.filter(onlyUnique);
+    setBrands(brands);
   }, []);
 
-  const [name, setName] = useState("");
-  const [isStaff, setIsStaff] = useState(false);
-  const handleSaveName = () => {
-    let user = FirebaseApp.auth().currentUser;
-    user.updateProfile({ displayName: name }).then(() => {
-      FirebaseApp.firestore()
-        .doc("pusers/" + user.uid)
-        .set({ name: name })
-        .then(() => {
-          handleNext();
-        });
-    });
-  };
-
-  const handleAuthSuccess = () => {
-    let uid = FirebaseApp.auth().currentUser.uid;
-    FirebaseApp.firestore()
-      .doc("pusers/" + uid)
-      .get()
-      .then((res) => {
-        if (res.exists) {
-          setName(res.data().name);
-          
-        }
+  useEffect(() => {
+    if (selectedBrand) {
+      let models = cars.cars.filter((value) => {
+        return value.brand.toLowerCase().includes(selectedBrand.toLowerCase());
       });
-    handleNext();
-  };
-
-  const getStepContent = (step) => {
-    switch (step) {
-      case 0:
-        return (
-          <>
-            <StyledFirebaseAuth
-              uiConfig={{
-                callbacks: {
-                  signInSuccessWithAuthResult(authResult, redirectUrl) {
-                    handleAuthSuccess();
-                    return false;
-                  },
-                },
-      
-                signInFlow: "popup",
-                signInOptions: [
-                  {
-                    provider: firebase.auth.PhoneAuthProvider.PROVIDER_ID,
-                    recaptchaParameters: {
-                      type: "image",
-                      size: "invisible",
-                      badge: "bottomleft",
-                    },
-                    defaultCountry: "IN",
-                  },
-
-              
-                ],
-              }}
-              firebaseAuth={FirebaseApp.auth()}
-            />
-          </>
-        );
-      case 1:
-        return (
-          <Box
-            flexDirection="column"
-            style={{
-              padding: 30,
-              width: "400px",
-              border: "1px solid black",
-              minHeight: "200px",
-            }}
-            display="flex"
-            justifyContent="center"
-            variant="outlined"
-          >
-            <TextField
-              inputProps={{ style: { fontSize: 20 } }}
-              label="Name"
-              value={name}
-              onChange={(e) => {
-                setName(e.target.value);
-              }}
-              variant="outlined"
-            />
-            <Button
-              variant="contained"
-              onClick={handleSaveName}
-              color="primary"
-              style={{
-                width: "100px",
-                marginRight: "0px",
-                marginLeft: "auto",
-                marginTop: "20px",
-              }}
-            >
-              Next
-            </Button>
-          </Box>
-        );
-      case 2:
-        return (
-          <Box flexDirection={"column"}>
-            <Typography>Sign In Successful</Typography>
-            <Button
-              variant="outlined"
-              color="primary"
-              onClick={() => {
-                history.replace("/");
-              }}
-            >
-              Return Home
-            </Button>
-          </Box>
-        );
-        default: return <> </>
+      models = models.map((value) => {
+        return value.model;
+      });
+      console.log(models);
+      setModels(models);
     }
-  };
+  }, [selectedBrand]);
 
   return (
     <div className={classes.root}>
@@ -269,13 +382,18 @@ export default function Login() {
             <Typography className={classes.instructions}>
               All steps completed - you&apos;re finished
             </Typography>
-            <Button className={classes.button}>Redirect To Home</Button>
+            <Button onClick={handleReset} className={classes.button}>
+              Reset
+            </Button>
           </div>
         ) : (
-          <div style={{ width: "100%" }}>
-            <Box display="flex" justifyContent="center">
-              {getStepContent(activeStep)}
-            </Box>
+          <div>
+            <OutlinedCard width={300} height={300}>
+              {activeStep === 0 && emailPass()}
+              {activeStep === 1 && nameMob()}
+              {activeStep === 2 && carsInfo()}
+            </OutlinedCard>
+            {/* */}
           </div>
         )}
       </div>
